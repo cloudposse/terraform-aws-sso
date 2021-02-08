@@ -93,7 +93,6 @@ usage: |-
   - [modules/account-assignments](/modules/account-assignments) - a module for assigning users and groups to permission 
   sets in particular accounts
   - [modules/permission-sets](/modules/permission-sets) - a module for provisioning AWS SSO permission sets
-  ```
 
 # Example usage
 examples: |-
