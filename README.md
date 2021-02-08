@@ -73,13 +73,12 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 
 
-Here's how to invoke this example module in your projects
+This module contains two sub-modules that can be used in conjunction to provision AWS SSO Permission Sets and to 
+assign AWS SSO Users and Groups to Permissions Sets in accounts.
 
-```hcl
-module "example" {
-  source = "https://github.com/cloudposse/terraform-aws-sso.git?ref=master"
-  example = "Hello world!"
-}
+- [modules/account-assignments](/modules/account-assignments) - a module for assigning users and groups to permission 
+sets in particular accounts
+- [modules/permission-sets](/modules/permission-sets) - a module for provisioning AWS SSO permission sets
 ```
 
 
