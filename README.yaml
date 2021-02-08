@@ -67,8 +67,19 @@ references:
 
 # Short description of this project
 description: |-
-  This is `terraform-aws-sso` project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-  use when creating new repositories.
+  This module configures [AWS Single Sign-On (SSO)](https://aws.amazon.com/single-sign-on/). AWS SSO makes it easy to 
+  centrally manage access to multiple AWS accounts and business applications and provide users with single sign-on 
+  access to all their assigned accounts and applications from one place. With AWS SSO, you can easily manage access and 
+  user permissions to all of your accounts in AWS Organizations centrally. AWS SSO configures and maintains all the 
+  necessary permissions for your accounts automatically, without requiring any additional setup in the individual 
+  accounts. You can assign user permissions based on common job functions and customize these permissions to meet your 
+  specific security requirements. AWS SSO also includes built-in integrations to many business applications, such as 
+  Salesforce, Box, and Microsoft 365.
+
+  With AWS SSO, you can create and manage user identities in AWS SSO’s identity store, or easily connect to your 
+  existing identity source, including Microsoft Active Directory, Okta Universal Directory, and Azure Active Directory 
+  (Azure AD). AWS SSO allows you to select user attributes, such as cost center, title, or locale, from your identity 
+  source, and then use them for attribute-based access control in AWS.
 
 # Introduction to the project
 #introduction: |-
@@ -87,8 +98,8 @@ usage: |-
 
 # Example usage
 examples: |-
-  Here is an example of using this module:
-  - [`examples/complete`](https://github.com/cloudposse/terraform-aws-sso/) - complete example of using this module
+  Here is a full example of using these modules to provision permission sets and assign them to accounts:
+  - [`examples/complete`](/examples/complete) - complete example of using these modules
 
 # How to get started quickly
 #quickstart: |-
@@ -101,5 +112,5 @@ include:
 
 # Contributors to this project
 contributors:
-  - name: "Erik Osterman"
-    github: "osterman"
+  - name: "Matt Calhoun"
+    github: "mcalhoun"
