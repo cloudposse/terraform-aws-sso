@@ -79,7 +79,6 @@ assign AWS SSO Users and Groups to Permissions Sets in accounts.
 - [modules/account-assignments](/modules/account-assignments) - a module for assigning users and groups to permission 
 sets in particular accounts
 - [modules/permission-sets](/modules/permission-sets) - a module for provisioning AWS SSO permission sets
-```
 
 
 
