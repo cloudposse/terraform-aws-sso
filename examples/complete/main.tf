@@ -3,29 +3,22 @@ module "permission_sets" {
 
   permission_sets = [
     {
-      name               = "One",
-      description        = "This is One description",
-      relay_state        = "",
-      session_duration   = "",
-      tags               = {},
-      inline_policy      = data.aws_iam_policy_document.FullAccess.json,
-      policy_attachments = []
-    },
-    { name               = "Two",
-      description        = "This is Two description",
+      name               = "AdministratorAccess",
+      description        = "Allow Full Access to the account",
       relay_state        = "",
       session_duration   = "",
       tags               = {},
       inline_policy      = "",
-      policy_attachments = ["arn:aws:iam::aws:policy/AdministratorAccess", "arn:aws:iam::aws:policy/AlexaForBusinessFullAccess"]
+      policy_attachments = ["arn:aws:iam::aws:policy/AdministratorAccess"]
     },
-    { name               = "Three",
-      description        = "This is Three description",
+    {
+      name               = "S3AdministratorAccess",
+      description        = "Allow Full S3 Admininstrator access to the account",
       relay_state        = "",
       session_duration   = "",
       tags               = {},
       inline_policy      = data.aws_iam_policy_document.S3Access.json,
-      policy_attachments = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+      policy_attachments = []
     }
   ]
   context = module.this.context
@@ -35,30 +28,31 @@ module "sso_account_assignments" {
   source = "../../modules/account-assignments"
 
   account_assignments = [
-    { account = "226010001608", permission_set_arn = module.permission_sets.permission_sets["Two"].arn, principal_type = "GROUP", principal_name = "MattCalhounReadOnly" },
-    { account = "226010001608", permission_set_arn = module.permission_sets.permission_sets["Three"].arn, principal_type = "GROUP", principal_name = "MattCalhounAdmin" },
-    { account = "626770839906", permission_set_arn = module.permission_sets.permission_sets["One"].arn, principal_type = "GROUP", principal_name = "MattCalhounAdmin" },
-    { account = "626770839906", permission_set_arn = module.permission_sets.permission_sets["One"].arn, principal_type = "USER", principal_name = "matt@cloudposse.com" }
+    {
+      account            = "111111111111", // Represents the "production" account
+      permission_set_arn = module.permission_sets.permission_sets["AdministratorAccess"].arn,
+      principal_type     = "GROUP",
+      principal_name     = "Administrators"
+    },
+    {
+      account            = "111111111111",
+      permission_set_arn = module.permission_sets.permission_sets["S3AdministratorAccess"].arn,
+      principal_type     = "GROUP",
+      principal_name     = "S3Adminstrators"
+    },
+    {
+      account            = "222222222222", // Represents the "Sandbox" account
+      permission_set_arn = module.permission_sets.permission_sets["AdministratorAccess"].arn,
+      principal_type     = "GROUP",
+      principal_name     = "Developers"
+    },
   ]
+  context = module.this.context
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
 # CREATE SOME IAM POLCIES TO ATTACH AS INLINE
 #-----------------------------------------------------------------------------------------------------------------------
-data "aws_iam_policy_document" "FullAccess" {
-  statement {
-    sid = "1"
-
-    actions = [
-      "*",
-    ]
-
-    resources = [
-      "*",
-    ]
-  }
-}
-
 data "aws_iam_policy_document" "S3Access" {
   statement {
     sid = "1"
@@ -70,11 +64,3 @@ data "aws_iam_policy_document" "S3Access" {
     ]
   }
 }
-
-# output "test" {
-#   value = module.permission_sets.test
-# }
-
-# output "test2" {
-#   value = module.sso_account_assignments.assignments
-# }
