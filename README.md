@@ -1,4 +1,6 @@
-# terraform-example-module [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-example-module.svg)](https://github.com/cloudposse/terraform-example-module/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
+<!-- markdownlint-disable -->
+# terraform-aws-sso [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-sso.svg)](https://github.com/cloudposse/terraform-aws-sso/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
+<!-- markdownlint-restore -->
 
 [![README Header][readme_header_img]][readme_header_link]
 
@@ -25,8 +27,19 @@
 
 -->
 
-This is `terraform-example-module` project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-use when creating new repositories.
+This module configures [AWS Single Sign-On (SSO)](https://aws.amazon.com/single-sign-on/). AWS SSO makes it easy to 
+centrally manage access to multiple AWS accounts and business applications and provide users with single sign-on 
+access to all their assigned accounts and applications from one place. With AWS SSO, you can easily manage access and 
+user permissions to all of your accounts in AWS Organizations centrally. AWS SSO configures and maintains all the 
+necessary permissions for your accounts automatically, without requiring any additional setup in the individual 
+accounts. You can assign user permissions based on common job functions and customize these permissions to meet your 
+specific security requirements. AWS SSO also includes built-in integrations to many business applications, such as 
+Salesforce, Box, and Microsoft 365.
+
+With AWS SSO, you can create and manage user identities in AWS SSO’s identity store, or easily connect to your 
+existing identity source, including Microsoft Active Directory, Okta Universal Directory, and Azure Active Directory 
+(Azure AD). AWS SSO allows you to select user attributes, such as cost center, title, or locale, from your identity 
+source, and then use them for attribute-based access control in AWS.
 
 
 ---
@@ -40,8 +53,6 @@ This project is part of our comprehensive ["SweetOps"](https://cpco.io/sweetops)
 [<img align="right" title="Share on Twitter" src="https://docs.cloudposse.com/images/ionicons/social-twitter-outline-2.0.1-16x16-999999.svg" />][share_twitter]
 
 
-[![Terraform Open Source Modules](https://docs.cloudposse.com/images/terraform-open-source-modules.svg)][terraform_modules]
-
 
 
 It's 100% Open Source and licensed under the [APACHE2](LICENSE).
@@ -52,7 +63,8 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 
 
-We literally have [*hundreds of terraform modules*][terraform_modules] that are Open Source and well-maintained. Check them out!
+
+
 
 
 
@@ -63,26 +75,21 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 ## Usage
 
 
-**IMPORTANT:** The `master` branch is used in `source` just as an example. In your code, do not pin to `master` because there may be breaking changes between releases.
-Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-example-module/releases).
 
+This module contains two sub-modules that can be used in conjunction to provision AWS SSO Permission Sets and to 
+assign AWS SSO Users and Groups to Permissions Sets in accounts.
 
-Here's how to invoke this example module in your projects
-
-```hcl
-module "example" {
-  source = "https://github.com/cloudposse/terraform-example-module.git?ref=master"
-  example = "Hello world!"
-}
-```
+- [modules/account-assignments](/modules/account-assignments) - a module for assigning users and groups to permission 
+sets in particular accounts
+- [modules/permission-sets](/modules/permission-sets) - a module for provisioning AWS SSO permission sets
 
 
 
 
 ## Examples
 
-Here is an example of using this module:
-- [`examples/complete`](https://github.com/cloudposse/terraform-example-module/) - complete example of using this module
+Here is a full example of using these modules to provision permission sets and assign them to accounts:
+- [`examples/complete`](/examples/complete) - complete example of using these modules
 
 
 
@@ -101,44 +108,19 @@ Available targets:
 <!-- markdownlint-disable -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| terraform | >= 0.12.0, < 0.14.0 |
-| local | ~> 1.2 |
-| random | ~> 2.2 |
+No requirements.
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| random | ~> 2.2 |
+No provider.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| additional\_tag\_map | Additional tags for appending to tags\_as\_list\_of\_maps. Not added to `tags`. | `map(string)` | `{}` | no |
-| attributes | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
-| context | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | <pre>object({<br>    enabled             = bool<br>    namespace           = string<br>    environment         = string<br>    stage               = string<br>    name                = string<br>    delimiter           = string<br>    attributes          = list(string)<br>    tags                = map(string)<br>    additional_tag_map  = map(string)<br>    regex_replace_chars = string<br>    label_order         = list(string)<br>    id_length_limit     = number<br>  })</pre> | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_order": [],<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {}<br>}</pre> | no |
-| delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
-| enabled | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
-| environment | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
-| example | Example variable | `string` | `"hello world"` | no |
-| id\_length\_limit | Limit `id` to this many characters.<br>Set to `0` for unlimited length.<br>Set to `null` for default, which is `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
-| label\_order | The naming order of the id output and Name tag.<br>Defaults to ["namespace", "environment", "stage", "name", "attributes"].<br>You can omit any of the 5 elements, but at least one must be present. | `list(string)` | `null` | no |
-| name | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
-| namespace | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
-| regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
-| stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
-| tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
+No input.
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| example | Example output |
-| id | ID of the created example |
-| random | Stable random number for this example |
+No output.
 
 <!-- markdownlint-restore -->
 
@@ -146,7 +128,7 @@ Available targets:
 
 ## Share the Love
 
-Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-example-module)! (it helps us **a lot**)
+Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-aws-sso)! (it helps us **a lot**)
 
 Are you using this project or any of our other projects? Consider [leaving a testimonial][testimonial]. =)
 
@@ -174,7 +156,7 @@ For additional context, refer to some of these links.
 
 **Got a question?** We got answers.
 
-File a GitHub [issue](https://github.com/cloudposse/terraform-example-module/issues), send us an [email][email] or join our [Slack Community][slack].
+File a GitHub [issue](https://github.com/cloudposse/terraform-aws-sso/issues), send us an [email][email] or join our [Slack Community][slack].
 
 [![README Commercial Support][readme_commercial_support_img]][readme_commercial_support_link]
 
@@ -222,7 +204,7 @@ Sign up for [our newsletter][newsletter] that covers everything on our technolog
 
 ### Bug Reports & Feature Requests
 
-Please use the [issue tracker](https://github.com/cloudposse/terraform-example-module/issues) to report any bugs or file feature requests.
+Please use the [issue tracker](https://github.com/cloudposse/terraform-aws-sso/issues) to report any bugs or file feature requests.
 
 ### Developing
 
@@ -242,7 +224,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2020-2020 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2020-2021 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
@@ -301,42 +283,44 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 ### Contributors
 
-|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] |
+<!-- markdownlint-disable -->
+|  [![Matt Calhoun][mcalhoun_avatar]][mcalhoun_homepage]<br/>[Matt Calhoun][mcalhoun_homepage] |
 |---|
+<!-- markdownlint-restore -->
 
-  [osterman_homepage]: https://github.com/osterman
-  [osterman_avatar]: https://img.cloudposse.com/150x150/https://github.com/osterman.png
+  [mcalhoun_homepage]: https://github.com/mcalhoun
+  [mcalhoun_avatar]: https://img.cloudposse.com/150x150/https://github.com/mcalhoun.png
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
 
   [logo]: https://cloudposse.com/logo-300x69.svg
-  [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=docs
-  [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=website
-  [github]: https://cpco.io/github?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=github
-  [jobs]: https://cpco.io/jobs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=jobs
-  [hire]: https://cpco.io/hire?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=hire
-  [slack]: https://cpco.io/slack?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=slack
-  [linkedin]: https://cpco.io/linkedin?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=linkedin
-  [twitter]: https://cpco.io/twitter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=twitter
-  [testimonial]: https://cpco.io/leave-testimonial?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=testimonial
-  [office_hours]: https://cloudposse.com/office-hours?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=office_hours
-  [newsletter]: https://cpco.io/newsletter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=newsletter
-  [discourse]: https://ask.sweetops.com/?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=discourse
-  [email]: https://cpco.io/email?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=email
-  [commercial_support]: https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=commercial_support
-  [we_love_open_source]: https://cpco.io/we-love-open-source?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=we_love_open_source
-  [terraform_modules]: https://cpco.io/terraform-modules?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=terraform_modules
+  [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=docs
+  [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=website
+  [github]: https://cpco.io/github?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=github
+  [jobs]: https://cpco.io/jobs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=jobs
+  [hire]: https://cpco.io/hire?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=hire
+  [slack]: https://cpco.io/slack?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=slack
+  [linkedin]: https://cpco.io/linkedin?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=linkedin
+  [twitter]: https://cpco.io/twitter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=twitter
+  [testimonial]: https://cpco.io/leave-testimonial?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=testimonial
+  [office_hours]: https://cloudposse.com/office-hours?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=office_hours
+  [newsletter]: https://cpco.io/newsletter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=newsletter
+  [discourse]: https://ask.sweetops.com/?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=discourse
+  [email]: https://cpco.io/email?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=email
+  [commercial_support]: https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=commercial_support
+  [we_love_open_source]: https://cpco.io/we-love-open-source?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=we_love_open_source
+  [terraform_modules]: https://cpco.io/terraform-modules?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=terraform_modules
   [readme_header_img]: https://cloudposse.com/readme/header/img
-  [readme_header_link]: https://cloudposse.com/readme/header/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=readme_header_link
+  [readme_header_link]: https://cloudposse.com/readme/header/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=readme_header_link
   [readme_footer_img]: https://cloudposse.com/readme/footer/img
-  [readme_footer_link]: https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=readme_footer_link
+  [readme_footer_link]: https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=readme_footer_link
   [readme_commercial_support_img]: https://cloudposse.com/readme/commercial-support/img
-  [readme_commercial_support_link]: https://cloudposse.com/readme/commercial-support/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=readme_commercial_support_link
-  [share_twitter]: https://twitter.com/intent/tweet/?text=terraform-example-module&url=https://github.com/cloudposse/terraform-example-module
-  [share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-example-module&url=https://github.com/cloudposse/terraform-example-module
-  [share_reddit]: https://reddit.com/submit/?url=https://github.com/cloudposse/terraform-example-module
-  [share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/cloudposse/terraform-example-module
-  [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-example-module
-  [share_email]: mailto:?subject=terraform-example-module&body=https://github.com/cloudposse/terraform-example-module
-  [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-example-module?pixel&cs=github&cm=readme&an=terraform-example-module
+  [readme_commercial_support_link]: https://cloudposse.com/readme/commercial-support/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-sso&utm_content=readme_commercial_support_link
+  [share_twitter]: https://twitter.com/intent/tweet/?text=terraform-aws-sso&url=https://github.com/cloudposse/terraform-aws-sso
+  [share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-aws-sso&url=https://github.com/cloudposse/terraform-aws-sso
+  [share_reddit]: https://reddit.com/submit/?url=https://github.com/cloudposse/terraform-aws-sso
+  [share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/cloudposse/terraform-aws-sso
+  [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-aws-sso
+  [share_email]: mailto:?subject=terraform-aws-sso&body=https://github.com/cloudposse/terraform-aws-sso
+  [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-aws-sso?pixel&cs=github&cm=readme&an=terraform-aws-sso
