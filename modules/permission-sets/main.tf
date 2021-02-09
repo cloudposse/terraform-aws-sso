@@ -42,9 +42,9 @@ locals {
   inline_policies    = { for index, ps in var.permission_sets : ps.name => ps.inline_policy if ps.inline_policy != "" }
   managed_policy_map = { for index, ps in var.permission_sets : ps.name => ps.policy_attachments if length(ps.policy_attachments) > 0 }
   managed_policy_attachments = flatten([
-    for psName, policylist in local.managed_policy_map : [
-      for policy in policylist : {
-        policy_set = psName
+    for ps_name, policy_list in local.managed_policy_map : [
+      for policy in policy_list : {
+        policy_set = ps_name
         policy_arn = policy
       }
     ]
