@@ -1,3 +1,4 @@
+
 <!-- markdownlint-disable -->
 # terraform-aws-sso [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-sso.svg)](https://github.com/cloudposse/terraform-aws-sso/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
 <!-- markdownlint-restore -->
@@ -40,7 +41,6 @@ With AWS SSO, you can create and manage user identities in AWS SSO’s identity 
 existing identity source, including Microsoft Active Directory, Okta Universal Directory, and Azure Active Directory 
 (Azure AD). AWS SSO allows you to select user attributes, such as cost center, title, or locale, from your identity 
 source, and then use them for attribute-based access control in AWS.
-
 
 ---
 
@@ -112,16 +112,23 @@ No requirements.
 
 ## Providers
 
-No provider.
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
 
 ## Inputs
 
-No input.
+No inputs.
 
 ## Outputs
 
-No output.
-
+No outputs.
 <!-- markdownlint-restore -->
 
 
