@@ -21,7 +21,7 @@ data "aws_identitystore_user" "this" {
 locals {
   assignment_map = {
     for a in var.account_assignments : format("%v-%v", a.account, substr(base64sha256(
-      format("%v%v%v", a.principal_name, a.principal_type, a.permission_set_arn)
+      format("%v%v%v", a.principal_name, a.principal_type, a.permission_set_name)
     ), 0, 15)) => a
   }
 }
