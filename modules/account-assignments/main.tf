@@ -18,27 +18,18 @@ data "aws_identitystore_user" "this" {
   }
 }
 
-locals {
-  assignment_map = {
-    for a in var.account_assignments : format("%v-%v", a.account, substr(base64sha256(
-      format("%v%v%v", a.principal_name, a.principal_type, a.permission_set_arn)
-    ), 0, 15)) => a
-  }
-}
-
 resource "aws_ssoadmin_account_assignment" "this" {
-  for_each = local.assignment_map
+  count = length(var.account_assignments)
 
-  instance_arn       = local.sso_instance_arn
-  permission_set_arn = each.value.permission_set_arn
+  instance_arn       = local.identity_store_arn
+  permission_set_arn = var.account_assignments[count.index]["permission_set_arn"]
 
-  principal_id   = each.value.principal_type == "GROUP" ? data.aws_identitystore_group.this[each.value.principal_name].id : data.aws_identitystore_user.this[each.value.principal_name].id
-  principal_type = each.value.principal_type
+  principal_id   = var.account_assignments[count.index]["principal_type"] == "GROUP" ? data.aws_identitystore_group.sso[var.account_assignments[count.index]["principal_name"]].id : data.aws_identitystore_user.sso[var.account_assignments[count.index]["principal_name"]].id
+  principal_type = var.account_assignments[count.index]["principal_type"]
 
-  target_id   = each.value.account
+  target_id   = var.account_assignments[count.index]["account"]
   target_type = "AWS_ACCOUNT"
 }
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -53,4 +44,3 @@ locals {
   group_list = toset([for mapping in var.account_assignments : mapping.principal_name if mapping.principal_type == "GROUP"])
   user_list  = toset([for mapping in var.account_assignments : mapping.principal_name if mapping.principal_type == "USER"])
 }
-
