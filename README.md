@@ -108,7 +108,9 @@ Available targets:
 <!-- markdownlint-disable -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
 
 ## Providers
 
