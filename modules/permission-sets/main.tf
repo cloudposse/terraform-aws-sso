@@ -8,6 +8,7 @@ resource "aws_ssoadmin_permission_set" "this" {
   instance_arn     = local.sso_instance_arn
   relay_state      = each.value.relay_state != "" ? each.value.relay_state : null
   session_duration = each.value.session_duration != "" ? each.value.session_duration : null
+  tags             = each.value.tags != "" ? each.value.tags : null
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
