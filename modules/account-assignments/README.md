@@ -21,19 +21,22 @@ module "sso_account_assignments" {
 
   account_assignments = [
     {
-        account = "111111111111",
+        account_name = "foo",
+        account_id = "111111111111",
         permission_set_arn = "arn:aws:sso:::permissionSet/ssoins-0000000000000000/ps-31d20e5987f0ce66",
         principal_type = "GROUP",
         principal_name = "Administrators"
     },
     {
-        account = "111111111111",
+        account_name = "bar",
+        account_id = "111111111111",
         permission_set_arn = "arn:aws:sso:::permissionSet/ssoins-0000000000000000/ps-955c264e8f20fea3",
         principal_type = "GROUP",
         principal_name = "Developers"
     },
     {
-        account = "222222222222",
+        account_name = "baz",
+        account_id = "222222222222",
         permission_set_arn = "arn:aws:sso:::permissionSet/ssoins-0000000000000000/ps-31d20e5987f0ce66",
         principal_type = "GROUP",
         principal_name = "Developers"
