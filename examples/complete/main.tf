@@ -43,7 +43,7 @@ module "sso_account_assignments" {
       principal_name      = "S3Adminstrators"
     },
     {
-      account             = "222222222222", // Represents the "Sandbox" account
+      account             = "222222222222", # Represents the "Sandbox" account
       permission_set_arn  = module.permission_sets.permission_sets["AdministratorAccess"].arn,
       permission_set_name = "AdministratorAccess",
       principal_type      = "GROUP",
