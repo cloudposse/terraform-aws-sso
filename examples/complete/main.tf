@@ -29,7 +29,7 @@ module "sso_account_assignments" {
 
   account_assignments = [
     {
-      account             = "111111111111", // Represents the "production" account
+      account             = "111111111111", # Represents the "production" account
       permission_set_arn  = module.permission_sets.permission_sets["AdministratorAccess"].arn,
       permission_set_name = "AdministratorAccess",
       principal_type      = "GROUP",
