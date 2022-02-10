@@ -6,7 +6,6 @@ resource "aws_ssoadmin_permission_set" "this" {
   name             = each.key
   description      = each.value.description
   instance_arn     = local.sso_instance_arn
-  relay_state      = each.value.relay_state != "" ? each.value.relay_state : null
   session_duration = each.value.session_duration != "" ? each.value.session_duration : null
   tags             = each.value.tags != "" ? each.value.tags : null
 }
@@ -15,10 +14,10 @@ resource "aws_ssoadmin_permission_set" "this" {
 # ATTACH INLINE POLICIES
 #-----------------------------------------------------------------------------------------------------------------------
 resource "aws_ssoadmin_permission_set_inline_policy" "this" {
-  for_each           = local.inline_policies_map
-  inline_policy      = each.value
+  for_each           = local.inline_policy_attachments_map
+  inline_policy      = each.value.policy_set
   instance_arn       = local.sso_instance_arn
-  permission_set_arn = aws_ssoadmin_permission_set.this[each.key].arn
+  permission_set_arn = aws_ssoadmin_permission_set.this[each.value.ps_name].arn
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -39,7 +38,7 @@ data "aws_ssoadmin_instances" "this" {}
 locals {
   sso_instance_arn    = tolist(data.aws_ssoadmin_instances.this.arns)[0]
   permission_set_map  = { for ps in var.permission_sets : ps.name => ps }
-  inline_policies_map = { for ps in var.permission_sets : ps.name => ps.inline_policy if ps.inline_policy != "" }
+  inline_policies_map = { for ps in var.permission_sets : ps.name => ps.inline_policy if length(ps.inline_policy) > 0 }
   managed_policy_map  = { for ps in var.permission_sets : ps.name => ps.policy_attachments if length(ps.policy_attachments) > 0 }
   managed_policy_attachments = flatten([
     for ps_name, policy_list in local.managed_policy_map : [
@@ -49,7 +48,21 @@ locals {
       }
     ]
   ])
+
+  inline_policy_attachments = flatten([
+    for ps_name, policy_list in local.inline_policies_map : [
+      for policy in policy_list : {
+        policy_set  = policy["policy_set"]
+        ps_sub_name = policy["policyname"]
+        ps_name     = ps_name
+      }
+    ]
+  ])
+
   managed_policy_attachments_map = {
     for policy in local.managed_policy_attachments : "${policy.policy_set}.${policy.policy_arn}" => policy
+  }
+  inline_policy_attachments_map = {
+    for policy in local.inline_policy_attachments : "${policy.ps_name}.${policy.ps_sub_name}" => policy
   }
 }

@@ -12,18 +12,21 @@ module "permission_sets" {
       policy_attachments = ["arn:aws:iam::aws:policy/AdministratorAccess"]
     },
     {
-      name               = "S3AdministratorAccess",
-      description        = "Allow Full S3 Admininstrator access to the account",
-      relay_state        = "",
-      session_duration   = "",
-      tags               = {},
-      inline_policy      = data.aws_iam_policy_document.S3Access.json,
+      name             = "S3andIamAdministratorAccess",
+      description      = "Allow Full S3 and IAM Admininstrator access to the account",
+      relay_state      = "",
+      session_duration = "",
+      tags             = {},
+      inline_policy = [
+        { "policyname" : "s3_access", "policy_set" : data.aws_iam_policy_document.S3Access.json },
+        { "policyname" : "iam_access", "policy_set" : data.aws_iam_policy_document.IamAccess.json }
+      ],
       policy_attachments = []
     }
   ]
   context = module.this.context
 }
-
+# { "policyname" : "readonly", "policy_set" : data.template_file.read_only_inline_policy.rendered }, { "policyname" : "operational", "policy_set" : data.template_file.operational_access_inline_policy.rendered }
 module "sso_account_assignments" {
   source = "../../modules/account-assignments"
 
@@ -37,10 +40,10 @@ module "sso_account_assignments" {
     },
     {
       account             = "111111111111",
-      permission_set_arn  = module.permission_sets.permission_sets["S3AdministratorAccess"].arn,
-      permission_set_name = "S3AdministratorAccess",
+      permission_set_arn  = module.permission_sets.permission_sets["S3andIamAdministratorAccess"].arn,
+      permission_set_name = "S3andIamAdministratorAccess",
       principal_type      = "GROUP",
-      principal_name      = "S3Adminstrators"
+      principal_name      = "S3andIamAdminstrators"
     },
     {
       account             = "222222222222", # Represents the "Sandbox" account
@@ -64,6 +67,18 @@ data "aws_iam_policy_document" "S3Access" {
 
     resources = [
       "arn:aws:s3:::*",
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "IamAccess" {
+  statement {
+    sid = "2"
+
+    actions = ["*"]
+
+    resources = [
+      "arn:aws:iam:::*",
     ]
   }
 }
