@@ -13,7 +13,8 @@ For a complete example, see [examples/complete](/examples/complete).
 
 ```hcl
 module "permission_sets" {
-  source = "https://github.com/cloudposse/terraform-aws-sso.git//modules/permission-sets?ref=master"
+  source  = "cloudposse/sso/aws"
+  version = "v0.6.2"
 
   permission_sets = [
     {

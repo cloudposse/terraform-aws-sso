@@ -17,7 +17,8 @@ For a complete example, see [examples/complete](/examples/complete).
 
 ```hcl
 module "sso_account_assignments" {
-  source = "https://github.com/cloudposse/terraform-aws-sso.git//modules/account-assignments?ref=master"
+  source  = "cloudposse/sso/aws"
+  version = "v0.6.2"
 
   account_assignments = [
     {

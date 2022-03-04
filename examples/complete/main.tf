@@ -1,5 +1,6 @@
 module "permission_sets" {
-  source = "../../modules/permission-sets"
+  source  = "cloudposse/sso/aws"
+  version = "v0.6.2"
 
   permission_sets = [
     {
@@ -25,7 +26,8 @@ module "permission_sets" {
 }
 
 module "sso_account_assignments" {
-  source = "../../modules/account-assignments"
+  source  = "cloudposse/sso/aws"
+  version = "v0.6.2"
 
   account_assignments = [
     {
