@@ -18,20 +18,26 @@ module "permission_sets" {
   permission_sets = [
     {
       name               = "AdministratorAccess",
-      description        = "Give a user full admininstrator access to an account",
+      description        = "Allow Full Access to the account",
       relay_state        = "",
       session_duration   = "",
       tags               = {},
       inline_policy      = "",
       policy_attachments = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+      customer_managed_policy_attachments = [{
+        name = aws_iam_policy.S3Access.name
+        path = aws_iam_policy.S3Access.path
+      }]
     },
-    { name               = "S3AdministratorAccess",
-      description        = "Give a user full S3 administrator access",
-      relay_state        = "",
-      session_duration   = "",
-      tags               = {},
-      inline_policy      = data.aws_iam_policy_document.S3Access.json,
-      policy_attachments = []
+    {
+      name                                = "S3AdministratorAccess",
+      description                         = "Allow Full S3 Admininstrator access to the account",
+      relay_state                         = "",
+      session_duration                    = "",
+      tags                                = {},
+      inline_policy                       = data.aws_iam_policy_document.S3Access.json,
+      policy_attachments                  = []
+      customer_managed_policy_attachments = []
     }
   ]
   context = module.this.context
@@ -48,4 +54,11 @@ data "aws_iam_policy_document" "S3Access" {
     ]
   }
 }
+
+resource "aws_iam_policy" "S3Access" {
+  name   = "S3Access"
+  path   = "/"
+  policy = data.aws_iam_policy_document.S3Access.json
+}
+
 ```

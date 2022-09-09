@@ -7,6 +7,10 @@ variable "permission_sets" {
     tags               = map(string)
     inline_policy      = string
     policy_attachments = list(string)
+    customer_managed_policy_attachments = list(object({
+      name = string
+      path = string
+    }))
   }))
 
   default = []
