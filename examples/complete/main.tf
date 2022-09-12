@@ -80,4 +80,5 @@ resource "aws_iam_policy" "S3Access" {
   name   = "S3Access"
   path   = "/"
   policy = data.aws_iam_policy_document.S3Access.json
+  tags   = module.this.tags
 }
