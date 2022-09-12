@@ -32,6 +32,19 @@ resource "aws_ssoadmin_managed_policy_attachment" "this" {
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
+# ATTACH CUSTOMER MANAGED POLICIES
+#-----------------------------------------------------------------------------------------------------------------------
+resource "aws_ssoadmin_customer_managed_policy_attachment" "this" {
+  for_each           = local.customer_managed_policy_attachments_map
+  instance_arn       = local.sso_instance_arn
+  permission_set_arn = aws_ssoadmin_permission_set.this[each.value.policy_set].arn
+  customer_managed_policy_reference {
+    name = each.value.policy_name
+    path = each.value.policy_path
+  }
+}
+
+#-----------------------------------------------------------------------------------------------------------------------
 # LOCAL VARIABLES AND DATA SOURCES
 #-----------------------------------------------------------------------------------------------------------------------
 data "aws_ssoadmin_instances" "this" {}
@@ -51,5 +64,18 @@ locals {
   ])
   managed_policy_attachments_map = {
     for policy in local.managed_policy_attachments : "${policy.policy_set}.${policy.policy_arn}" => policy
+  }
+  customer_managed_policy_map = { for ps in var.permission_sets : ps.name => ps.customer_managed_policy_attachments if length(ps.customer_managed_policy_attachments) > 0 }
+  customer_managed_policy_attachments = flatten([
+    for ps_name, policy_list in local.customer_managed_policy_map : [
+      for policy in policy_list : {
+        policy_set  = ps_name
+        policy_name = policy.name
+        policy_path = policy.path
+      }
+    ]
+  ])
+  customer_managed_policy_attachments_map = {
+    for policy in local.managed_policy_attachments : "${policy.policy_set}.${policy.policy_path}${policy.policy_name}" => policy
   }
 }
