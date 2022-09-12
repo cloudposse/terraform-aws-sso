@@ -76,6 +76,6 @@ locals {
     ]
   ])
   customer_managed_policy_attachments_map = {
-    for policy in local.managed_policy_attachments : "${policy.policy_set}.${policy.policy_path}${policy.policy_name}" => policy
+    for policy in local.customer_managed_policy_attachments : "${policy.policy_set}.${policy.policy_path}${policy.policy_name}" => policy
   }
 }
