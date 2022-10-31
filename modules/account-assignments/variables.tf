@@ -7,3 +7,9 @@ variable "account_assignments" {
     principal_type      = string
   }))
 }
+
+variable "wait_group_creation" {
+  description = "A list of parameters to use for data resources to depend on"
+  type        = list(string)
+  default     = []
+}
