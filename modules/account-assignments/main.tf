@@ -1,6 +1,6 @@
 resource "null_resource" "dependency" {
   triggers = {
-    dependency_id = join(",", var.wait_group_creation)
+    dependency_id = join(",", var.identitystore_group_depends_on)
   }
 }
 

@@ -8,8 +8,8 @@ variable "account_assignments" {
   }))
 }
 
-variable "wait_group_creation" {
-  description = "A list of parameters to use for data resources to depend on"
+variable "identitystore_group_depends_on" {
+  description = "A list of parameters to use for data resources to depend on. This is a workaround to avoid module depends_on as that will recreate the module resources in many unexpected situations"
   type        = list(string)
   default     = []
 }
