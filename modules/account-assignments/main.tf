@@ -1,3 +1,9 @@
+resource "null_resource" "dependency" {
+  triggers = {
+    dependency_id = join(",", var.identitystore_group_depends_on)
+  }
+}
+
 data "aws_identitystore_group" "this" {
   for_each          = local.group_list
   identity_store_id = local.identity_store_id
@@ -6,6 +12,8 @@ data "aws_identitystore_group" "this" {
     attribute_path  = "DisplayName"
     attribute_value = each.key
   }
+
+  depends_on = [null_resource.dependency]
 }
 
 data "aws_identitystore_user" "this" {
@@ -16,6 +24,8 @@ data "aws_identitystore_user" "this" {
     attribute_path  = "UserName"
     attribute_value = each.key
   }
+
+  depends_on = [null_resource.dependency]
 }
 
 locals {
