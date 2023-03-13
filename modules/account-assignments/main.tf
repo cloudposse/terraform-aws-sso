@@ -8,9 +8,11 @@ data "aws_identitystore_group" "this" {
   for_each          = local.group_list
   identity_store_id = local.identity_store_id
 
-  filter {
-    attribute_path  = "DisplayName"
-    attribute_value = each.key
+  alternate_identifier {
+    unique_attribute {
+      attribute_path  = "DisplayName"
+      attribute_value = each.key
+    }
   }
 
   depends_on = [null_resource.dependency]
