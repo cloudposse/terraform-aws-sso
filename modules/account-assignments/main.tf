@@ -25,7 +25,7 @@ data "aws_identitystore_user" "this" {
   alternate_identifier {
     unique_attribute {
       attribute_path  = "UserName"
-    attribute_value = each.key
+      attribute_value = each.key
     }
   }
 
