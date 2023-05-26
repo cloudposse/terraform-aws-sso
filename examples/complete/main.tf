@@ -59,7 +59,7 @@ module "sso_account_assignments" {
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
-# CREATE SOME IAM POLCIES TO ATTACH AS INLINE
+# CREATE SOME IAM POLICIES TO ATTACH AS INLINE
 #-----------------------------------------------------------------------------------------------------------------------
 data "aws_iam_policy_document" "S3Access" {
   statement {
@@ -74,7 +74,7 @@ data "aws_iam_policy_document" "S3Access" {
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
-# CREATE SOME IAM POLCIES TO ATTACH AS MANAGED
+# CREATE SOME IAM POLICIES TO ATTACH AS MANAGED
 #-----------------------------------------------------------------------------------------------------------------------
 resource "aws_iam_policy" "S3Access" {
   name   = "S3Access"
