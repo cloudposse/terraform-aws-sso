@@ -7,7 +7,7 @@ Permission sets are stored in AWS SSO and are only used for AWS accounts. They a
 ## Usage
 
 ```hcl
-module "permission_sets" {
+module "sso" {
   source = "https://github.com/nimbux911/terraform-aws-sso.git?ref=main"
 
   permission_sets = [
@@ -35,7 +35,6 @@ module "permission_sets" {
       customer_managed_policy_attachments = []
     }
   ]
-}
 
 data "aws_iam_policy_document" "S3Access" {
   statement {
@@ -59,7 +58,7 @@ resource "aws_iam_policy" "S3Access" {
 account_assignments = [
     {
         account = "111111111111",
-        permission_set_arn = module.main.permission_sets["SSO_PS_ADMINISTRATOR_STAGE"].arn,
+        permission_set_arn = module.sso.permission_sets["SSO_PS_ADMINISTRATOR_STAGE"].arn,
         permission_set_name = "Administrators",
         principal_type = "GROUP",
         principal_name = "Administrators"
@@ -79,5 +78,5 @@ account_assignments = [
         principal_name = "Developers"
     },
   ]
-
+}
 ```
