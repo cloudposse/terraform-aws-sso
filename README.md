@@ -36,25 +36,6 @@ module "sso" {
     }
   ]
 
-data "aws_iam_policy_document" "S3Access" {
-  statement {
-    sid = "1"
-
-    actions = ["*"]
-
-    resources = [
-      "arn:aws:s3:::*",
-    ]
-  }
-}
-
-resource "aws_iam_policy" "S3Access" {
-  name   = "S3Access"
-  path   = "/"
-  policy = data.aws_iam_policy_document.S3Access.json
-  tags   = module.this.tags
-}
-
 account_assignments = [
     {
         account = "111111111111",
@@ -78,5 +59,24 @@ account_assignments = [
         principal_name = "Developers"
     },
   ]
+}
+
+data "aws_iam_policy_document" "S3Access" {
+  statement {
+    sid = "1"
+
+    actions = ["*"]
+
+    resources = [
+      "arn:aws:s3:::*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "S3Access" {
+  name   = "S3Access"
+  path   = "/"
+  policy = data.aws_iam_policy_document.S3Access.json
+  tags   = module.this.tags
 }
 ```
