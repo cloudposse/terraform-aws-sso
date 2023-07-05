@@ -3,11 +3,12 @@ module "permission_sets" {
 
   permission_sets = [
     {
+      # one of inline_policy, policy_attachments or customer_managed_policy_attachments must be specified
       name               = "AdministratorAccess",
       description        = "Allow Full Access to the account",
-      relay_state        = "",
-      session_duration   = "",
-      tags               = {},
+      relay_state        = "", # default
+      session_duration   = "", # default is PT8H
+      tags               = {}, # default
       inline_policy      = "",
       policy_attachments = ["arn:aws:iam::aws:policy/AdministratorAccess"]
       customer_managed_policy_attachments = [{
@@ -24,7 +25,13 @@ module "permission_sets" {
       inline_policy                       = data.aws_iam_policy_document.S3Access.json,
       policy_attachments                  = []
       customer_managed_policy_attachments = []
-    }
+    },
+    {
+      # This is the bare minimum that must be specified
+      name                                = "AdministratorAccess",
+      description                         = "Allow Full Access",
+      policy_attachments                  = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+    },
   ]
   context = module.this.context
 }
@@ -37,20 +44,20 @@ module "sso_account_assignments" {
   account_assignments = [
     {
       account             = "111111111111", # Represents the "production" account
+      # permission_set_arn is optional and will be looked up in the permission sets above if not specified
+      permission_set_arn  = module.permission_sets.permission_sets["AdministratorAccess"].arn,
       permission_set_name = "AdministratorAccess",
-      principal_type      = "GROUP",
+      principal_type      = "GROUP", # GROUP is the default, USER can also be specified
       principal_name      = "Administrators"
     },
     {
       account             = "111111111111",
       permission_set_name = "S3AdministratorAccess",
-      principal_type      = "GROUP",
       principal_name      = "S3Adminstrators"
     },
     {
       account             = "222222222222", # Represents the "Sandbox" account
       permission_set_name = "AdministratorAccess",
-      principal_type      = "GROUP",
       principal_name      = "Developers"
     },
   ]
