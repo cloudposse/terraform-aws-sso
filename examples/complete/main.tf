@@ -31,7 +31,7 @@ module "permission_sets" {
       name                                = "AdministratorAccess",
       description                         = "Allow Full Access",
       policy_attachments                  = ["arn:aws:iam::aws:policy/AdministratorAccess"]
-    },
+    }
   ]
   context = module.this.context
 }
