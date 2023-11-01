@@ -40,7 +40,7 @@ resource "aws_ssoadmin_customer_managed_policy_attachment" "this" {
   permission_set_arn = aws_ssoadmin_permission_set.this[each.value.policy_set].arn
   customer_managed_policy_reference {
     name = each.value.policy_name
-    path = each.value.policy_path
+    path = coalesce(each.value.policy_path, "/")
   }
 }
 
