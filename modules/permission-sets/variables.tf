@@ -9,7 +9,7 @@ variable "permission_sets" {
     policy_attachments = list(string)
     customer_managed_policy_attachments = list(object({
       name = string
-      path = string
+      path = optional(string, "/")
     }))
   }))
 
