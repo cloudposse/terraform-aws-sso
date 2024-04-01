@@ -1,0 +1,7 @@
+# Upstream changes from _extends are only recognized when modifications are made to this file in the default branch.
+_extends: .github
+repository:
+  name: terraform-aws-sso
+  description: Terraform module to configure AWS Single Sign-On (SSO)
+  homepage: https://cloudposse.com/accelerate
+  topics: security, terraform-modules, terraform
