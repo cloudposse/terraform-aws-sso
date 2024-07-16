@@ -5,3 +5,4 @@ repository:
   description: Terraform module to configure AWS Single Sign-On (SSO)
   homepage: https://cloudposse.com/accelerate
   topics: security, terraform-modules, terraform
+
