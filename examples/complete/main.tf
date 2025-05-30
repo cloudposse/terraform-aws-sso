@@ -13,7 +13,8 @@ module "permission_sets" {
       customer_managed_policy_attachments = [{
         name = aws_iam_policy.S3Access.name
         path = aws_iam_policy.S3Access.path
-      }]
+      }],
+      boundary_policy_attachments = []
     },
     {
       name                                = "S3AdministratorAccess",
@@ -24,6 +25,7 @@ module "permission_sets" {
       inline_policy                       = data.aws_iam_policy_document.S3Access.json,
       policy_attachments                  = []
       customer_managed_policy_attachments = []
+      boundary_policy_attachments = []
     }
   ]
   context = module.this.context
