@@ -1,10 +1,11 @@
 variable "account_assignments" {
   type = list(object({
-    account             = string
-    permission_set_name = string
-    permission_set_arn  = string
-    principal_name      = string
-    principal_type      = string
+    account_name        = string // has to be determined value before terraform apply
+    account_id          = string // can be determined later
+    permission_set_name = string // has to be determined value before terraform apply
+    permission_set_arn  = string // can be determined later
+    principal_name      = string // has to be determined value before terraform apply
+    principal_type      = string // has to be determined value before terraform apply
   }))
 }
 
