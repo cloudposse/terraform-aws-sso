@@ -84,6 +84,32 @@ Here is a full example of using these modules to provision permission sets and a
 
 
 
+<!-- markdownlint-disable -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- markdownlint-restore -->
+
 
 
 
