@@ -11,6 +11,10 @@ variable "permission_sets" {
       name = string
       path = optional(string, "/")
     }))
+    boundary_policy_attachments = list(object({
+      name = string
+      path = string
+    }))  
   }))
 
   default = []
