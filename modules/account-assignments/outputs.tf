@@ -1,4 +1,5 @@
 output "assignments" {
-  value = aws_ssoadmin_account_assignment.this
+  description = "Assignments"
+  value       = aws_ssoadmin_account_assignment.this
 }
 
