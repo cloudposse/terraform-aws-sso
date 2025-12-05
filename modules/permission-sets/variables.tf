@@ -13,5 +13,7 @@ variable "permission_sets" {
     }))
   }))
 
+  description = "Permission sets"
+
   default = []
 }
