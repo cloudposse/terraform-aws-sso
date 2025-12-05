@@ -6,6 +6,8 @@ variable "account_assignments" {
     principal_name      = string
     principal_type      = string
   }))
+
+  description = "Account assignments"
 }
 
 variable "identitystore_group_depends_on" {
