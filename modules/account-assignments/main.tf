@@ -39,7 +39,7 @@ data "aws_identitystore_user" "this" {
 locals {
   assignment_map = {
     for a in var.account_assignments :
-    format("%v-%v-%v-%v", a.account, substr(a.principal_type, 0, 1), a.principal_name, a.permission_set_name) => a
+    format("%v-%v-%v-%v", a.account_name, substr(a.principal_type, 0, 1), a.principal_name, a.permission_set_name) => a
   }
 }
 
@@ -52,7 +52,7 @@ resource "aws_ssoadmin_account_assignment" "this" {
   principal_id   = each.value.principal_type == "GROUP" ? local.resolved_group_ids[each.value.principal_name] : data.aws_identitystore_user.this[each.value.principal_name].id
   principal_type = each.value.principal_type
 
-  target_id   = each.value.account
+  target_id   = each.value.account_id
   target_type = "AWS_ACCOUNT"
 }
 

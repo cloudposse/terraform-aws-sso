@@ -34,21 +34,24 @@ module "sso_account_assignments" {
 
   account_assignments = [
     {
-      account             = "111111111111", # Represents the "production" account
+      account_id          = "111111111111", # Represents the "production" account
+      account_name        = "Account1"
       permission_set_arn  = module.permission_sets.permission_sets["AdministratorAccess"].arn,
       permission_set_name = "AdministratorAccess",
       principal_type      = "GROUP",
       principal_name      = "Administrators"
     },
     {
-      account             = "111111111111",
+      account_id          = "111111111111",
+      account_name        = "Account1"
       permission_set_arn  = module.permission_sets.permission_sets["S3AdministratorAccess"].arn,
       permission_set_name = "S3AdministratorAccess",
       principal_type      = "GROUP",
       principal_name      = "S3Adminstrators"
     },
     {
-      account             = "222222222222", # Represents the "Sandbox" account
+      account_id          = "222222222222", # Represents the "Sandbox" account
+      account_name        = "account2"
       permission_set_arn  = module.permission_sets.permission_sets["AdministratorAccess"].arn,
       permission_set_name = "AdministratorAccess",
       principal_type      = "GROUP",
